@@ -227,3 +227,27 @@ pageContentEl.addEventListener("click", taskButtonHandler);
 
 // for changing the status
 pageContentEl.addEventListener("change", taskStatusChangeHandler);
+
+var loadTasks = function(){
+  var taskArray = [];
+  taskArray = localStorage.getItem("tasks");
+  var parseTasks = JSON.parse(taskArray);
+  if(parseTasks != null){
+  for(i = 0;i < parseTasks.length;i++){
+  var listItemEl = document.createElement("li");
+  listItemEl.className = "task-item";
+  listItemEl.setAttribute("data-task-id", parseTasks[i].id);
+
+  var taskInfoEl = document.createElement("div");
+  taskInfoEl.className = "task-info";
+  taskInfoEl.innerHTML = "<h3 class='task-name'>" + parseTasks[i].name + "</h3><span class='task-type'>" + parseTasks[i].type + "</span>";
+  listItemEl.appendChild(taskInfoEl);
+
+  // create task actions (buttons and select) for task
+  var taskActionsEl = createTaskActions(parseTasks[i].id);
+  listItemEl.appendChild(taskActionsEl);
+  tasksToDoEl.appendChild(listItemEl);
+}
+  } 
+};
+loadTasks();
